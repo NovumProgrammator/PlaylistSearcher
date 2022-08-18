@@ -1,0 +1,33 @@
+﻿<Window x:Class="PlaylistSearcher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlaylistSearcher"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="220" Width="550" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="Transparent">
+    <Canvas MouseDown="Canvas_MouseDown">
+        <Canvas.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity=".88">
+                <GradientStop Color="#FFEFDBEF"/>
+                <GradientStop Color="#FFCEBECB" Offset="1"/>
+                <GradientStop Color="#FFF3E1DC" Offset="0.5"/>
+            </LinearGradientBrush>
+        </Canvas.Background>
+
+        <Label x:Name="LabelClose" Content="X" MouseDown="LabelClose_MouseDown" HorizontalAlignment="Center" Canvas.Left="520" VerticalAlignment="Top"
+               FontSize="25" Canvas.Top="-3" Foreground="#FF67287F" FontFamily="Trebuchet MS"/>
+
+        <Button x:Name="ButtonChoosePlaylist" Content="Playlist" Click="ButtonChoosePlaylist_Click" Canvas.Left="117" Canvas.Top="72" Height="35" Width="154" 
+                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed"/>
+        <Button x:Name="ButtonDestinationFolder" Content="Folder" Click="ButtonDestinationFolder_Click" Canvas.Left="279" Canvas.Top="72" Height="35" Width="154"
+                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed"/>
+        <Button x:Name="ButtonStopCopy" Content="Stop" Click="ButtonStopCopy_Click" Canvas.Left="117" Canvas.Top="113" Height="35" Width="154"
+                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed"/>
+        <Button x:Name="ButtonCopy" Content="Copy" Click="ButtonCopy_Click" Canvas.Left="280" Canvas.Top="113" Height="35" Width="154"
+                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed"/>
+
+
+
+    </Canvas>
+</Window>
