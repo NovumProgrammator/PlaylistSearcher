@@ -23,11 +23,14 @@
         <Button x:Name="ButtonDestinationFolder" Content="Folder" Click="ButtonDestinationFolder_Click" Canvas.Left="279" Canvas.Top="72" Height="35" Width="154"
                 FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed"/>
         <Button x:Name="ButtonStopCopy" Content="Stop" Click="ButtonStopCopy_Click" Canvas.Left="117" Canvas.Top="113" Height="35" Width="154"
-                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed"/>
-        <Button x:Name="ButtonCopy" Content="Copy" Click="ButtonCopy_Click" Canvas.Left="280" Canvas.Top="113" Height="35" Width="154"
-                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed"/>
+                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button x:Name="ButtonCopy" Content="Copy" Click="ButtonCopy_Click" Canvas.Left="279" Canvas.Top="113" Height="35" Width="154"
+                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
+        <ProgressBar x:Name="ProgressBar" Minimum="0" Maximum="100" Value="{Binding WorkerState}" Height="19" Canvas.Left="13" Canvas.Top="162" Width="524" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
+        <Label x:Name="Label1" Content="Playlist:" Canvas.Left="114" Canvas.Top="44" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Arial Narrow" FontSize="14"/>
+        <Label x:Name="LabelPath" Content="..." Canvas.Left="156" Canvas.Top="44" FontFamily="Arial Narrow" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
     </Canvas>
 </Window>
