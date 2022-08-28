@@ -55,7 +55,7 @@
                 <ProgressBar x:Name="ProgressBar" Margin="10" Minimum="0" Maximum="100" Value="{Binding WorkerState}" 
                              Height="25" Opacity=".8"/>
                 <Label x:Name="LabelProgress" Content="Complete" FontFamily="Bahnschrift" FontSize="20" 
-                       HorizontalAlignment="Center" Foreground="#FF31092A"/>
+                       HorizontalAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF31092A"/>
 
             </StackPanel>
         </Canvas>

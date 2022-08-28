@@ -76,7 +76,7 @@ namespace PlaylistSearcher
             Directory.CreateDirectory(destinationFolder);
 
             // progressbar variable | show progress in label under progressbar
-            var progress = new Progress<int>(value =>
+            var progress = new Progress<double>(value =>
             {
                 ProgressBar.Value = value;
                 LabelProgress.Content = $"{value}%";
@@ -97,10 +97,6 @@ namespace PlaylistSearcher
                     System.Windows.MessageBox.Show("Choose your playlist and destination folder");
                 }
             });
-
-            stopCopy = true;
-            ProgressBar.Value = ProgressBar.Maximum;
-            LabelProgress.Content = $"Complete";
         }
 
         private void ButtonStopCopy_Click(object sender, RoutedEventArgs e)
@@ -108,7 +104,7 @@ namespace PlaylistSearcher
             stopCopy = true;
         }
 
-        ////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////
 
         // creates a list of file paths to copy
         private void CreateListMedia()
@@ -133,16 +129,18 @@ namespace PlaylistSearcher
                 }
             }
         }
-        private void CopyFiles(IProgress<int> progress)
+        private void CopyFiles(IProgress<double> progress)
         {
             // for progressbar
-            int percentComplete = 0;
-            int oneItemPercentage = 100 / musicFilePathList.Count;
+            double percentComplete = 0;
+            double oneItemPercentage = (double)100 / musicFilePathList.Count;
 
             for (int i = 0; i < musicFilePathList.Count; i++)
             {
                 if (stopCopy == true)
+                {
                     break;
+                }
 
                 string filePath = musicFilePathList[i];
 
@@ -157,11 +155,15 @@ namespace PlaylistSearcher
 
                     // show percent in progressbar
                     percentComplete += oneItemPercentage;
-                    progress.Report(percentComplete);
+                    progress.Report(Math.Round(percentComplete));
                 }
             }
+
+            stopCopy = true;
+            ProgressBar.Value = ProgressBar.Maximum;
+            LabelProgress.Content = $"Complete";
         }
 
-        
+
     }
 }
