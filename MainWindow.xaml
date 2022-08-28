@@ -6,32 +6,58 @@
         xmlns:local="clr-namespace:PlaylistSearcher"
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="700" AllowsTransparency="True" WindowStyle="None" Background="Transparent">
-    <Canvas MouseDown="Canvas_MouseDown">
-        <Canvas.Background>
-            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity=".88">
-                <GradientStop Color="#FFEFDBEF"/>
-                <GradientStop Color="#FFCEBECB" Offset="1"/>
-                <GradientStop Color="#FFF3E1DC" Offset="0.5"/>
-            </LinearGradientBrush>
-        </Canvas.Background>
 
-        <Label x:Name="LabelClose" Content="X" MouseDown="LabelClose_MouseDown" HorizontalAlignment="Center" Canvas.Left="520" VerticalAlignment="Top"
-               FontSize="25" Canvas.Top="-3" Foreground="#FF67287F" FontFamily="Trebuchet MS"/>
+    <Border Padding="5">
+        <Canvas MouseDown="Canvas_MouseDown" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Canvas.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity=".7">
+                    <GradientStop Color="#FFEFDBEF"/>
+                    <GradientStop Color="#FFCEBECB" Offset="1"/>
+                    <GradientStop Color="#FFF3E1DC" Offset="0.5"/>
+                </LinearGradientBrush>
+            </Canvas.Background>
 
-        <Button x:Name="ButtonChoosePlaylist" Content="Playlist" Click="ButtonChoosePlaylist_Click" Canvas.Left="117" Canvas.Top="72" Height="35" Width="154" 
-                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed"/>
-        <Button x:Name="ButtonDestinationFolder" Content="Folder" Click="ButtonDestinationFolder_Click" Canvas.Left="279" Canvas.Top="72" Height="35" Width="154"
-                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed"/>
-        <Button x:Name="ButtonStopCopy" Content="Stop" Click="ButtonStopCopy_Click" Canvas.Left="117" Canvas.Top="113" Height="35" Width="154"
-                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Button x:Name="ButtonCopy" Content="Copy" Click="ButtonCopy_Click" Canvas.Left="279" Canvas.Top="113" Height="35" Width="154"
-                FontSize="18" Opacity=".8" FontFamily="Bahnschrift Condensed" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <StackPanel Height="290" Width="690">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-        <ProgressBar x:Name="ProgressBar" Minimum="0" Maximum="100" Value="{Binding WorkerState}" Height="19" Canvas.Left="13" Canvas.Top="162" Width="524" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="70"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-        <Label x:Name="Label1" Content="Playlist:" FontFamily="Bahnschrift" FontSize="14" Canvas.Left="114" Canvas.Top="44" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <Label x:Name="LabelPath" Content="..."    FontFamily="Bahnschrift" FontSize="14" Canvas.Left="165" Canvas.Top="44" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Label x:Name="LabelProgress" Content="Complete" FontFamily="Bahnschrift Light" FontSize="16" Canvas.Left="236" Canvas.Top="180" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label x:Name="LabelClose" Margin="0,0,2,0" Content="X" Grid.Column="1" Grid.Row="0" MouseDown="LabelClose_MouseDown" 
+                           HorizontalAlignment="Right" VerticalAlignment="Top" FontFamily="Trebuchet MS" FontSize="25" Foreground="#FF580F55"/>
 
-    </Canvas>
+                    <Label x:Name="Label1" Margin="5,7" Content="Playlist:" Grid.Column="0" FontFamily="Bahnschrift" 
+                           FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF350930"/>
+                    <Label x:Name="LabelPath" Margin="64,7" Content="..." Grid.Column="0" FontFamily="Bahnschrift" FontSize="16"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="606" Foreground="#FF350930"/>
+
+                    <Button x:Name="ButtonChoosePlaylist" Margin="5" Content="Playlist" Grid.Column="0" Grid.Row="1" Click="ButtonChoosePlaylist_Click" 
+                        HorizontalAlignment="Right" FontFamily="Bahnschrift Condensed" FontSize="18" Opacity=".8" Height="35" Width="190" Background="#FFF7DDDD" Foreground="#FF290626"/>
+
+                    <Button x:Name="ButtonDestinationFolder" Margin="5" Content="Folder" Grid.Column="1" Grid.Row="1" Click="ButtonDestinationFolder_Click" 
+                        HorizontalAlignment="Left" FontFamily="Bahnschrift Condensed" FontSize="18" Opacity=".8" Height="35" Width="190" Background="#FFF7DDDD" Foreground="#FF290626"/>
+
+                    <Button x:Name="ButtonStopCopy" Margin="5" Content="Stop" Grid.Column="0" Grid.Row="2" Click="ButtonStopCopy_Click"
+                        HorizontalAlignment="Right" FontFamily="Bahnschrift Condensed" FontSize="18" Opacity=".8" Height="35" Width="190" Background="#FFF7DDDD" Foreground="#FF290626"/>
+
+                    <Button x:Name="ButtonCopy" Margin="5" Content="Copy" Grid.Column="1" Grid.Row="2" Click="ButtonCopy_Click"
+                        HorizontalAlignment="Left" FontFamily="Bahnschrift Condensed" FontSize="18" Opacity=".8" Height="35" Width="190" Background="#FFF7DDDD" Foreground="#FF290626"/>
+
+                </Grid>
+
+                <ProgressBar x:Name="ProgressBar" Margin="10" Minimum="0" Maximum="100" Value="{Binding WorkerState}" 
+                             Height="25" Opacity=".8"/>
+                <Label x:Name="LabelProgress" Content="Complete" FontFamily="Bahnschrift" FontSize="20" 
+                       HorizontalAlignment="Center" Foreground="#FF31092A"/>
+
+            </StackPanel>
+        </Canvas>
+    </Border>
 </Window>
