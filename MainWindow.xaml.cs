@@ -3,10 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
-using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading;
 
 namespace PlaylistSearcher
 {
@@ -15,25 +12,19 @@ namespace PlaylistSearcher
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<string> musicFilePath;
+        private List<string> playListWMP;
+        private List<string> musicFilePathList;
 
         private bool stopCopy = true;
-        private int numberFilesToCopy;
         private string playlistPath;
-        private string filePathSource;
         private string fileName;
         private string destinationFolder = $"{Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)}\\Playlist Music";
         
         public MainWindow()
         {
             InitializeComponent();
-            //DataContext = this;
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
+        
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed) DragMove();
@@ -49,15 +40,24 @@ namespace PlaylistSearcher
             var fileDialog = new OpenFileDialog();
             fileDialog.Filter = "WPL|*.wpl";
 
-            if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                playlistPath = fileDialog.FileName;
-                LabelPath.Content = fileDialog.FileName;
-                musicFilePath = new List<string>(File.ReadAllLines(playlistPath));
-            }
+                if (fileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    playlistPath = fileDialog.FileName;
+                    LabelPath.Content = fileDialog.FileName;
+                    playListWMP = new List<string>(File.ReadAllLines(playlistPath));
 
-            ProgressBar.Maximum = GetNumberFilesToCopy();
-            ProgressBar.Value = 0;
+                    CreateListMedia();
+
+                    ProgressBar.Maximum = 100;
+                    ProgressBar.Value = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(ex.Message);
+            }
         }
 
         private void ButtonDestinationFolder_Click(object sender, RoutedEventArgs e)
@@ -72,14 +72,25 @@ namespace PlaylistSearcher
 
         private async void ButtonCopy_Click(object sender, RoutedEventArgs e)
         {
+            // default folder
             Directory.CreateDirectory(destinationFolder);
 
-            await Task.Run(() =>
+            // progressbar variable | show progress in label under progressbar
+            var progress = new Progress<int>(value =>
+            {
+                ProgressBar.Value = value;
+                LabelProgress.Content = $"{value}%";
+            });
+
+            //stopCopy = false;
+            //CopyFiles(progress);
+
+            await System.Threading.Tasks.Task.Run(() =>
             {
                 if (playlistPath != null)
                 {
                     stopCopy = false;
-                    CopyFiles();
+                    CopyFiles(progress);
                 }
                 else
                 {
@@ -88,7 +99,8 @@ namespace PlaylistSearcher
             });
 
             stopCopy = true;
-            System.Windows.MessageBox.Show("Done");
+            ProgressBar.Value = ProgressBar.Maximum;
+            LabelProgress.Content = $"Complete";
         }
 
         private void ButtonStopCopy_Click(object sender, RoutedEventArgs e)
@@ -97,47 +109,59 @@ namespace PlaylistSearcher
         }
 
         ////////////////////////////////////////////////////////////////////////
-        public int GetNumberFilesToCopy()
+
+        // creates a list of file paths to copy
+        private void CreateListMedia()
         {
-            numberFilesToCopy = 0;
-            foreach (var item in musicFilePath)
+            musicFilePathList = new List<string>();
+            string filePath;
+
+            // loop through choosen playlist and extracte music paths
+            foreach (var item in playListWMP)
             {
                 if (item.Contains("media"))
                 {
-                    numberFilesToCopy++;
+                    // start of music path in current line
+                    int startIndex = item.IndexOf('"') + 1;
+
+                    // removing extra characters & replace special symbols
+                    filePath = item.Substring(startIndex).Remove(item.Substring(startIndex).IndexOf("\""));
+                    filePath = filePath.Replace(@"&apos;", @"'");
+                    filePath = filePath.Replace("&amp;", "&");
+
+                    musicFilePathList.Add(filePath);
                 }
             }
-            return numberFilesToCopy;
         }
-
-        private void CopyFiles()
+        private void CopyFiles(IProgress<int> progress)
         {
-            foreach (var file in musicFilePath)
+            // for progressbar
+            int percentComplete = 0;
+            int oneItemPercentage = 100 / musicFilePathList.Count;
+
+            for (int i = 0; i < musicFilePathList.Count; i++)
             {
                 if (stopCopy == true)
                     break;
 
-                if (file.Contains("media"))
+                string filePath = musicFilePathList[i];
+
+                if (File.Exists(filePath))
                 {
-                    int startIndex = file.IndexOf('"') + 1;
+                    // extracting file name only
+                    fileName = filePath.Substring(filePath.LastIndexOf("\\") + 1);
 
-                    filePathSource = file.Substring(startIndex).Remove(file.Substring(startIndex).IndexOf("\""));
-                    filePathSource = filePathSource.Replace(@"&apos;", @"'");
-                    filePathSource = filePathSource.Replace("&amp;", "&");
-                    filePathSource = filePathSource.Replace("..", "C:");
+                    string newFilePath = destinationFolder + $"\\{fileName}";
 
-                    if (File.Exists(filePathSource))
-                    {
-                        fileName = filePathSource;
-                        fileName = fileName.Substring(fileName.LastIndexOf("\\") + 1);
-                        string newFilePath = destinationFolder + $"\\{fileName}";
+                    File.Copy(filePath, newFilePath, true);
 
-                        File.Copy(filePathSource, newFilePath, true);
-                    }
+                    // show percent in progressbar
+                    percentComplete += oneItemPercentage;
+                    progress.Report(percentComplete);
                 }
             }
         }
 
-
+        
     }
 }

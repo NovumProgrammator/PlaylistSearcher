@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PlaylistSearcher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="220" Width="550" Loaded="Window_Loaded" AllowsTransparency="True" WindowStyle="None" Background="Transparent">
+        Title="MainWindow" Height="300" Width="700" AllowsTransparency="True" WindowStyle="None" Background="Transparent">
     <Canvas MouseDown="Canvas_MouseDown">
         <Canvas.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity=".88">
@@ -29,8 +29,9 @@
 
         <ProgressBar x:Name="ProgressBar" Minimum="0" Maximum="100" Value="{Binding WorkerState}" Height="19" Canvas.Left="13" Canvas.Top="162" Width="524" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
-        <Label x:Name="Label1" Content="Playlist:" Canvas.Left="114" Canvas.Top="44" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Arial Narrow" FontSize="14"/>
-        <Label x:Name="LabelPath" Content="..." Canvas.Left="156" Canvas.Top="44" FontFamily="Arial Narrow" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label x:Name="Label1" Content="Playlist:" FontFamily="Bahnschrift" FontSize="14" Canvas.Left="114" Canvas.Top="44" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label x:Name="LabelPath" Content="..."    FontFamily="Bahnschrift" FontSize="14" Canvas.Left="165" Canvas.Top="44" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label x:Name="LabelProgress" Content="Complete" FontFamily="Bahnschrift Light" FontSize="16" Canvas.Left="236" Canvas.Top="180" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 
     </Canvas>
 </Window>
