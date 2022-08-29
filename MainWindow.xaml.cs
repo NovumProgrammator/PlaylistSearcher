@@ -12,8 +12,12 @@ namespace PlaylistSearcher
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<string> playListWMP;
-        private List<string> musicFilePathList;
+        private List<string> playListWMP;       // all lines
+        private List<string> musicFilePathList; // extracted paths
+
+        // for progressbar
+        private double percentComplete;
+        private double oneItemPercentage;
 
         private bool stopCopy = true;
         private string playlistPath;
@@ -97,6 +101,18 @@ namespace PlaylistSearcher
                     System.Windows.MessageBox.Show("Choose your playlist and destination folder");
                 }
             });
+
+            // check if were forcibly stopped 
+            if (!stopCopy)
+            {
+                stopCopy = true;
+                ProgressBar.Value = ProgressBar.Maximum;
+                LabelProgress.Content = "Complete";
+            }
+            else
+            {
+                LabelProgress.Content = $"Stopped: {Math.Round(percentComplete)}%";
+            }
         }
 
         private void ButtonStopCopy_Click(object sender, RoutedEventArgs e)
@@ -132,8 +148,8 @@ namespace PlaylistSearcher
         private void CopyFiles(IProgress<double> progress)
         {
             // for progressbar
-            double percentComplete = 0;
-            double oneItemPercentage = (double)100 / musicFilePathList.Count;
+            percentComplete = 0;
+            oneItemPercentage = (double)100 / musicFilePathList.Count;
 
             for (int i = 0; i < musicFilePathList.Count; i++)
             {
@@ -158,12 +174,6 @@ namespace PlaylistSearcher
                     progress.Report(Math.Round(percentComplete));
                 }
             }
-
-            stopCopy = true;
-            ProgressBar.Value = ProgressBar.Maximum;
-            LabelProgress.Content = $"Complete";
         }
-
-
     }
 }
